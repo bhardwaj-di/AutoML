@@ -16,8 +16,13 @@ As the complexity of these tasks is often beyond non-ML-experts, the rapid growt
 
 Team Information:
 
-Name                    NUID
-Prasanth Dwadasi        002115654
-Sudarshan Waydande      001563532
-Divyanshu Bhardwaj      002181815
+Name
+NUID
+Prasanth Dwadasi
+002115654
+Sudarshan Waydande
+001563532
+Divyanshu Bhardwaj
+002181815
+
 
