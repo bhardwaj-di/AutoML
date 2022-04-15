@@ -11,3 +11,13 @@ Design the topology of neural networks (if deep learning is used).
 Postprocess machine learning models.
 Critically analyze the results obtained.
 As the complexity of these tasks is often beyond non-ML-experts, the rapid growth of machine learning applications has created a demand for off-the-shelf machine learning methods that can be used easily and without expert knowledge. We call the resulting research area that targets progressive automation of machine learning AutoML.
+
+
+
+Team Information:
+
+Name                    NUID
+Prasanth Dwadasi        002115654
+Sudarshan Waydande      001563532
+Divyanshu Bhardwaj      002181815
+
