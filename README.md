@@ -1,5 +1,5 @@
 # AutoML
-![Make Data Easy](https://iot.eetimes.com/wp-content/uploads/2018/02/machine-learning.jpg ?raw=true "AutoML")
+![Make Data Easy](https://iot.eetimes.com/wp-content/uploads/2018/02/machine-learning.jpg?raw=true "AutoML")
 Auto ML
 Automated Machine Learning provides methods and processes to make Machine Learning available for non-Machine Learning experts, to improve efficiency of Machine Learning and to accelerate research on Machine Learning.
 Machine learning (ML) has achieved considerable successes in recent years and an ever-growing number of disciplines rely on it. However, this success crucially relies on human machine learning experts to perform the following tasks:
