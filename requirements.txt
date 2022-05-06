@@ -5,8 +5,5 @@ toml
 google-cloud
 google-cloud-storage
 google-cloud-speech
-json
 firebase_admin
-firebase_admin-firestore
-firebase_admin-credentials
 pytest
