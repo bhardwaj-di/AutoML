@@ -19,11 +19,27 @@ jobs:
           python-version: 3.9 #install the python needed
       - name: install dependencies and run py # install dependencies for py file run
         run: |
-          echo $GCP_KEY
-          echo $FIREBASE_KEY
           pip install -r requirements.txt
           pytest Testing/testing.py
         env:
-          GCP_KEY:   ${{ secrets.GCP_ACCESS_KEY }}
-          FIREBASE_KEY:   ${{ secrets.FIREBASE_ACCESS_KEY }}
+          GCP_TYPE:  ${{ secrets.GCP_TYPE }}
+          GCP_PROJECT_ID:  ${{ secrets.GCP_PROJECT_ID }}
+          GCP_PRIVATE_KEY_ID:  ${{ secrets.GCP_PRIVATE_KEY_ID }}
+          GCP_PRIVATE_KEY:  ${{ secrets.GCP_PRIVATE_KEY }}
+          GCP_CLIENT_EMAIL:  ${{ secrets.GCP_CLIENT_EMAIL }}
+          GCP_CLIENT_ID:  ${{ secrets.GCP_CLIENT_ID }}
+          GCP_AUTH_URI:  ${{ secrets.GCP_AUTH_URI }}
+          GCP_TOKEN_URI:  ${{ secrets.GCP_TOKEN_URI }}
+          GCP_AUTH_PROVIDER_X509_CERT_URL:  ${{ secrets.GCP_AUTH_PROVIDER_X509_CERT_URL }}
+          GCP_CLIENT_X509_CERT_URL:  ${{ secrets.GCP_CLIENT_X509_CERT_URL }}
+          FIREBASE_TYPE:  ${{ secrets.FIREBASE_TYPE }}
+          FIREBASE_PROJECT_ID:  ${{ secrets.FIREBASE_PROJECT_ID }}
+          FIREBASE_PRIVATE_KEY_ID:  ${{ secrets.FIREBASE_PRIVATE_KEY_ID }}
+          FIREBASE_PRIVATE_KEY:  ${{ secrets.FIREBASE_PRIVATE_KEY }}
+          FIREBASE_CLIENT_EMAIL:  ${{ secrets.FIREBASE_CLIENT_EMAIL }}
+          FIREBASE_CLIENT_ID:  ${{ secrets.FIREBASE_CLIENT_ID }}
+          FIREBASE_AUTH_URI:  ${{ secrets.FIREBASE_AUTH_URI }}
+          FIREBASE_TOKEN_URI:  ${{ secrets.FIREBASE_TOKEN_URI }}
+          FIREBASE_AUTH_PROVIDER_X509_CERT_URL:  ${{ secrets.FIREBASE_AUTH_PROVIDER_X509_CERT_URL }}
+          FIREBASE_CLIENT_X509_CERT_URL:  ${{ secrets.FIREBASE_CLIENT_X509_CERT_URL }}
 
