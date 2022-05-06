@@ -1,2 +1,13 @@
 streamlit
 scrapetube
+toml
+re
+os
+google-cloud-storage
+google-oauth2-service_account
+google-cloud-speech
+json
+firebase_admin
+firebase_admin-firestore
+firebase_admin-credentials
+pytest
