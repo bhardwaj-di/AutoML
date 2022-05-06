@@ -75,8 +75,58 @@ The pipeline requires an Google cloud platform account to deploy and run. You mu
 Create a service account and enable the above mentioned API's
 Follow this [Getting started](https://cloud.google.com/docs/get-started) documnetation for more information
 
+1. Clone the repository using the command `git clone git@github.com:bhardwaj-di/Busines_meeting_summarization.git`
 
+2. Create a virtual environment and Install the necessary packages and libraries from requirements.txt 
 
+```
+source activate <env>
+pip3 install -r requirements.txt
+```
+
+3. By now you must already have an active GCP account , set up your gcp cli following instructions from [here](https://cloud.google.com/sdk/docs/install-sdk)
+
+4. Create 3 buckets with names `youtube_upload_bucket` , `preprocessed_audio` and `model-storage` for storing files and model
+
+5. You can create a bucket directly from website or through command line , for creation of bucket refer [gcp-bucket creation](https://cloud.google.com/storage/docs/creating-buckets#storage-create-bucket-cli)
+
+6.
+
+#### Deploying Cloud Functions 
+
+The pipeline extensively uses Google Cloud Functions for Serverless Computing. All directories inside cloud functions directory are Lambda functions that have to be deployed on GCP. All functions follow a common deployment process. 
+
+#### Deploy serverless Python code in GCP
+
+  - Enable Cloud function API on your GCP `gcloud services enable cloudfunctions.googleapis.com` or through cloud console
+  - We use seperate triggers for each cloud function which triggers the next event in the pipeline
+  - To create a cloud function open the cloud functions console and fill the details as mentioned below
+  ![creating cloud functiion](https://github.com/bhardwaj-di/Busines_meeting_summarization/blob/main/images/creating_cloud_function.png)
+  - We have created a function `audio_preprocesing` which triggers when a new object has been uploaded to the `youtube_upload_bucket`
+  - Similarly create another function `transcribe_audio` which triggers when a new object has been uploaded to the `preprocessed_audio`
+  ![creating cloud functiion](https://github.com/bhardwaj-di/Busines_meeting_summarization/blob/main/images/transcribe_audio.png)
+  
+7. Enable the firestore APi in cloud console and create two new collections `Audio_to_text` and `Summarizer`
+8. Setup another two cloud functions `summary` and `sendMail` which are responsible for summarizing the audio and sending a mail to user
+after the pdf with summary was generated
+
+9. Start the apache airflow by running scheduler and webserver
+
+```
+airflow webserver
+airflow scheduler
+python airflow/dags/generated_thumbnail.py
+```
+
+10. Now run the streamlit webapplication st.py inside the src folder
+
+`streamlit run st.py`
+
+11. Open the website [bizmeeting.website](http://bizmeeting.website/) and Signup
+
+12. You cannow use our application and get summary
+
+---
 
 ## TestCases
 
