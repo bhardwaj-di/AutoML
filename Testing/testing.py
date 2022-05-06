@@ -39,8 +39,8 @@ source_new = {
 
 
 if not firebase_admin._apps: 
-    cred = credentials.Certificate(source_new)
-    firebase_admin.initialize_app(cred)
+    #cred = credentials.Certificate(source_new)
+    firebase_admin.initialize_app(source_new)
 
 #info = json.load(source)
 credentialls = service_account.Credentials.from_service_account_info(source)
