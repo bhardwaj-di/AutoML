@@ -7,3 +7,7 @@ google-cloud-storage
 google-cloud-speech
 firebase_admin
 pytest
+transformers
+tensorflow
+fpdf
+
