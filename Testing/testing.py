@@ -37,14 +37,15 @@ source_new = {
   "client_x509_cert_url": os.environ['FIREBASE_CLIENT_X509_CERT_URL'] 
 }
 
-
-credentialls = service_account.Credentials.from_service_account_info(source)
+info = json.load(source)
+credentialls = service_account.Credentials.from_service_account_info(info)
 
 if not firebase_admin._apps: 
-    #cred = credentials.Certificate(source_new)
-    firebase_admin.initialize_app(source_new)
+    info_new = json.load(source_new)
+    cred = credentials.Certificate(info_new)
+    firebase_admin.initialize_app(info_new)
 
-#info = json.load(source)
+
 
 db = firestore.client()
 collection = db.collection('Audio_to_text')  # opens 'places' collection
