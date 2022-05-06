@@ -37,11 +37,11 @@ source_new = {
   "client_x509_cert_url": os.environ['FIREBASE_CLIENT_X509_CERT_URL'] 
 }
 
-info = json.load(source)
+info = json.dumps(source)
 credentialls = service_account.Credentials.from_service_account_info(info)
 
 if not firebase_admin._apps: 
-    info_new = json.load(source_new)
+    info_new = json.dumps(source_new)
     cred = credentials.Certificate(info_new)
     firebase_admin.initialize_app(info_new)
 
