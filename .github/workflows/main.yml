@@ -17,22 +17,11 @@ jobs:
         uses: actions/setup-python@v3
         with:
           python-version: 3.9 #install the python needed
-      - name: create-json-GCP
-        id: create-json-gcp
-        uses: actions/create-json-GCP@1.1.2
-        with:
-            name: "credentialsGCP.json"
-            GCP_KEY:  ${{ secrets.GCP_ACCESS_KEY }}
-      - name: create-json-Firebase
-        id: create-json-firebase
-        uses: actions/create-json-Firebase@1.1.2
-        with:
-            name: "credentialsFirebase.json"
-            FIREBASE_KEY:   ${{ secrets.FIREBASE_ACCESS_KEY }}
       - name: install dependencies and run py # install dependencies for py file run
         run: |
           pip install -r requirements.txt
           pytest Testing/testing.py
-            
-          
+        env:
+          GCP_KEY:   ${{ secrets.GCP_ACCESS_KEY }}
+          FIREBASE_KEY:   ${{ secrets.FIREBASE_ACCESS_KEY }}
                             # if run.py requires passwords..etc, set it as secrets
