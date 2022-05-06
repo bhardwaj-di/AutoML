@@ -74,7 +74,7 @@ def check_password(user,pwd):
     def password_entered():
         """Checks whether a password entered by the user is correct."""
         data = {}
-        input_file_name = "/Testing/secrets.toml"
+        input_file_name = "secrets.toml"
         with open(input_file_name) as toml_file:
             toml_dict = toml.load(toml_file)
             data = toml_dict
