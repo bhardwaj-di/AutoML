@@ -38,13 +38,13 @@ source_new = {
 }
 
 
+credentialls = service_account.Credentials.from_service_account_info(source)
+
 if not firebase_admin._apps: 
     #cred = credentials.Certificate(source_new)
     firebase_admin.initialize_app(source_new)
 
 #info = json.load(source)
-credentialls = service_account.Credentials.from_service_account_info(source)
-
 
 db = firestore.client()
 collection = db.collection('Audio_to_text')  # opens 'places' collection
