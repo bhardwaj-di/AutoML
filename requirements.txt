@@ -1,8 +1,6 @@
 streamlit
 scrapetube
 toml
-re
-os
 google-cloud-storage
 google-oauth2-service_account
 google-cloud-speech
