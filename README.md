@@ -54,7 +54,7 @@ The main aim of our project is to summarize business meetings, speaker diarizati
 
 #### Architecture 
 
-![alt text](https://github.com/bhardwaj-di/Busines_meeting_summarization/images/Architecture.png)
+![alt text](https://github.com/bhardwaj-di/Busines_meeting_summarization/blob/main/images/Architecture.png)
 
 - A Scalable Data Pipeline for Summarizing video and audio, performing Speaker Diarization, with code executing on serverless google cloud functions and with all the components deployed oncompenents Google Cloud. Sending an e-mail to the customer at the end with a pdf containing the summary of all the speakers.
 
