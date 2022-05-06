@@ -47,7 +47,7 @@ def check_password(user,pwd):
     def password_entered():
         """Checks whether a password entered by the user is correct."""
         data = {}
-        input_file_name = ".streamlit/secrets.toml"
+        input_file_name = "/Testing/secrets.toml"
         with open(input_file_name) as toml_file:
             toml_dict = toml.load(toml_file)
             data = toml_dict
@@ -206,7 +206,7 @@ def test_incorrect_link():
     assert id_yt == 'NNNNNNN'
 
 def test_transcribe_file():
-    speech_file = '/home/sudarshan/flc/Test1minute_new.flac'
+    speech_file = '/Testing/data/Test1minute_new.flac'
     result = transcribe_file(speech_file)
     assert len(result)> 0
 
