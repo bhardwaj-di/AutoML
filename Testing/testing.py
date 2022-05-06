@@ -10,14 +10,40 @@ import json
 import firebase_admin
 from firebase_admin import credentials, firestore
 
-if not firebase_admin._apps:
-    source_new = os.environ['FIREBASE_KEY'] 
+source = {
+  "type": os.environ['GCP_TYPE'] ,
+  "project_id": os.environ['GCP_PROJECT_ID'] ,
+  "private_key_id":os.environ['GCP_PRIVATE_KEY_ID'] ,
+  "private_key": os.environ['GCP_PRIVATE_KEY'] ,
+  "client_email": os.environ['GCP_CLIENT_EMAIL'] ,
+  "client_id": os.environ['GCP_CLIENT_ID'] ,
+  "auth_uri": os.environ['GCP_AUTH_URI'] ,
+  "token_uri": os.environ['GCP_TOKEN_URI'] ,
+  "auth_provider_x509_cert_url": os.environ['GCP_AUTH_PROVIDER_X509_CERT_URL'] ,
+  "client_x509_cert_url": os.environ['GCP_CLIENT_X509_CERT_URL'] 
+}
+
+
+source_new = {
+  "type": os.environ['FIREBASE_TYPE'] ,
+  "project_id": os.environ['FIREBASE_PROJECT_ID'] ,
+  "private_key_id":os.environ['FIREBASE_PRIVATE_KEY_ID'] ,
+  "private_key": os.environ['FIREBASE_PRIVATE_KEY'] ,
+  "client_email": os.environ['FIREBASE_CLIENT_EMAIL'] ,
+  "client_id": os.environ['FIREBASE_CLIENT_ID'] ,
+  "auth_uri": os.environ['FIREBASE_AUTH_URI'] ,
+  "token_uri": os.environ['FIREBASE_TOKEN_URI'] ,
+  "auth_provider_x509_cert_url": os.environ['FIREBASE_AUTH_PROVIDER_X509_CERT_URL'] ,
+  "client_x509_cert_url": os.environ['FIREBASE_CLIENT_X509_CERT_URL'] 
+}
+
+
+if not firebase_admin._apps: 
     cred = credentials.Certificate(source_new)
     firebase_admin.initialize_app(cred)
 
-source = os.environ['GCP_KEY'] 
-info = json.load(source)
-credentialls = service_account.Credentials.from_service_account_info(info)
+#info = json.load(source)
+credentialls = service_account.Credentials.from_service_account_info(source)
 
 
 db = firestore.client()
