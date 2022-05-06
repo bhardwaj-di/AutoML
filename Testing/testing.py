@@ -1,6 +1,5 @@
 import toml
 import scrapetube
-import yt as ytb
 import re
 import os
 from google.cloud import storage

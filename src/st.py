@@ -1,35 +1,30 @@
 # streamlit_app.py
 import streamlit as st
+import pickle
 import os
 import re
 import imageio
 import io
 import base64
 import pandas as pd
-from io import StringIO
 import json
 from google.cloud import storage
 from google.oauth2 import service_account
 import firebase_admin
 from firebase_admin import credentials, firestore
-import pyrebase
-import scrapetube
-import yt as ytb
-from PIL import Image
-import urllib.request
-from pytube import YouTube
 from os import listdir
+from pytube import YouTube
 from os.path import isfile, join
 import toml
 
-with open('./Credentials/fastapi-nowcast-349ba8715a42.json') as source:
+with open('../data/Credentials/fastapi-nowcast-349ba8715a42.json') as source:
     info = json.load(source)
 
 credentialls = service_account.Credentials.from_service_account_info(info)
 
 if not firebase_admin._apps:
 
-    cred = credentials.Certificate("./Credentials/fastapi-nowcast-firebase-adminsdk-48a9r-85bb2191a6.json")
+    cred = credentials.Certificate("../data/Credentials/fastapi-nowcast-firebase-adminsdk-48a9r-85bb2191a6.json")
     firebase_admin.initialize_app(cred)
 
 db = firestore.client()
@@ -84,22 +79,25 @@ def ytlinks():
     return video_links
 
 def show_ytlinks():
-    videolist = ytlinks()
+
+    loaded_dict = {}
+    with open('../data/thumbnails.pickle', 'rb') as handle:
+        loaded_dict = pickle.load(handle)
+
+
     ct = 0
     tab1, tab2 = st.columns(2)
-    for v in videolist:
+    for k,v in loaded_dict.items():
         if(ct%2 == 0):
-            tab1.write('https://www.youtube.com/watch?v='+v)
-            data = urllib.request.urlretrieve("http://img.youtube.com/vi/"+v+"/0.jpg")
-            image = Image.open(data[0])
+            tab1.write('https://www.youtube.com/watch?v='+k)
+            image = v
             # image.show()
             tab1.image(image,caption = 'Video ' + str(ct + 1))
             
             ct = ct + 1
         else:
-            tab2.write('https://www.youtube.com/watch?v='+v)
-            data = urllib.request.urlretrieve("http://img.youtube.com/vi/"+v+"/0.jpg")
-            image = Image.open(data[0])
+            tab2.write('https://www.youtube.com/watch?v='+k)
+            image = v
             # image.show()
             tab2.image(image,caption = 'Video ' + str(ct + 1))
             ct = ct + 1
@@ -108,7 +106,7 @@ def download_ytvideo(link_to_download):
     yt = YouTube(link_to_download)
     mp4_files = yt.streams.filter(file_extension="mp4")
     mp4_360p_files = mp4_files.get_by_resolution("360p")
-    mp4_360p_files.download(os.getcwd() + "/YoutubeVideo/")
+    mp4_360p_files.download("../data/YoutubeVideo/")
     
 
 
@@ -120,7 +118,7 @@ def upload_video_link(link_to_download):
     # The ID of your GCS bucket
     bucket_name = "youtube_upload_bucket"
     # The path to your file to upload
-    onlyfiles = [f for f in listdir('./YoutubeVideo/') if isfile(join('./YoutubeVideo/', f))]
+    onlyfiles = [f for f in listdir('../data/YoutubeVideo/') if isfile(join('../data/YoutubeVideo/', f))]
     source_file_name = onlyfiles[0]
     filename = source_file_name
     # The ID of your GCS object
@@ -129,7 +127,7 @@ def upload_video_link(link_to_download):
     storage_client = storage.Client(credentials= credentialls)
     bucket = storage_client.bucket(bucket_name)
     blob = bucket.blob(destination_blob_name)
-    blob.upload_from_filename(os.getcwd() + '/YoutubeVideo/' +source_file_name)
+    blob.upload_from_filename('../data/YoutubeVideo/' +source_file_name)
 
     print(
         "File {} uploaded to {}.".format(
@@ -137,8 +135,8 @@ def upload_video_link(link_to_download):
         )
     )
 
-    if os.path.exists('./YoutubeVideo/' + source_file_name):
-        os.remove('./YoutubeVideo/' + source_file_name)
+    if os.path.exists('../data/YoutubeVideo/' + source_file_name):
+        os.remove('../data/YoutubeVideo/' + source_file_name)
     else:
         print("The file does not exist")
     return filename
@@ -155,7 +153,7 @@ def upload_video_file(uploaded_file):
     source_file_name = uploaded_file.name
     filename = source_file_name
    
-    with open(os.getcwd() + '/UploadedVideo/' + source_file_name,'wb') as bf:
+    with open('../data/UploadedVideo/' + source_file_name,'wb') as bf:
         bf.write(bytes_data)
     # The ID of your GCS object
     destination_blob_name = source_file_name
@@ -164,7 +162,7 @@ def upload_video_file(uploaded_file):
     bucket = storage_client.bucket(bucket_name)
     blob = bucket.blob(destination_blob_name)
     #with open(source_file_name, 'rb') as f:
-    blob.upload_from_filename(os.getcwd() + '/UploadedVideo/' +source_file_name)
+    blob.upload_from_filename('../data/UploadedVideo/' +source_file_name)
 
     print(
         "File {} uploaded to {}.".format(
@@ -172,8 +170,8 @@ def upload_video_file(uploaded_file):
         )
     )
     #st.write("File {} uploaded to {}.".format(os.getcwd() + '/UploadedVideo/' +source_file_name , destination_blob_name))
-    if os.path.exists('./UploadedVideo/' + source_file_name):
-        os.remove('./UploadedVideo/' + source_file_name)
+    if os.path.exists('../data/UploadedVideo/' + source_file_name):
+        os.remove('../data/UploadedVideo/' + source_file_name)
     else:
         print("The file does not exist")
     return filename
@@ -208,6 +206,9 @@ def get_youtube_link_id(link_to_download):
             return yt_id
         else:
             return yt_id
+    else:
+        yt_id = "nan"
+        return yt_id
 
 
 def concat_link(yt_id):
@@ -249,6 +250,7 @@ with authenticate_userr:
            
             st.title('Welcome' + handle)
             st.info('Login via login drop down selection')
+        st.session_state["password_correct"] = False
 
 
     if choice == 'Login':
@@ -259,7 +261,11 @@ with authenticate_userr:
 
             link_to_download = st.text_input('Enter a Youtube link to Summarize:')
             yt_id = get_youtube_link_id(link_to_download)
-            link_to_download = concat_link(yt_id)
+            if(yt_id == 'nan'):
+                st.write("Link cannot be passed as we only support youtube as of now")
+                link_to_download = 'nan'
+            else:
+                link_to_download = concat_link(yt_id)
 
             st.header('OR')
             st.write('Note : If you are uploading the file Please keep the LINK text box empty!!')
@@ -274,13 +280,15 @@ with authenticate_userr:
                 if uploaded_file is None:
                     if not link_to_download:
                         st.write('Nothing to Show')
+                    elif(link_to_download == 'nan'):
+                        st.write("No results to show")
                         
                     else:
                         st.write(link_to_download)
                         filename = upload_video_link(link_to_download)
                         filename = filename.split('.')[0] 
                         print('Now for summarry: '+ filename )
-                        doc_ref = db.collection('Audio_to_text').document(filename)
+                        doc_ref = db.collection('Summarizer').document(filename)
                         doc = doc_ref.get()
                         now = doc.exists
                         while not now:
@@ -291,7 +299,7 @@ with authenticate_userr:
                         print('got file')
                         summarize_dtext = doc_ref.get().to_dict()
                         for key,val in zip (summarize_dtext.keys(),summarize_dtext.values()):
-                            st.write(key)
+                            st.write("Speaker :" + key)
                             st.write(val)
                 
                         
@@ -300,7 +308,7 @@ with authenticate_userr:
                     filename = upload_video_file(uploaded_file)
                     filename = filename.split('.')[0]
                     print('Now for summarry: '+ filename )
-                    doc_ref = db.collection('Audio_to_text').document(filename)
+                    doc_ref = db.collection('Summarizer').document(filename)
                     doc = doc_ref.get()
                     now = doc.exists
                     while not now:
@@ -311,7 +319,7 @@ with authenticate_userr:
                     print('got file')
                     summarize_dtext = doc_ref.get().to_dict()
                     for key,val in zip (summarize_dtext.keys(),summarize_dtext.values()):
-                        st.write(key)
+                        st.write("Speaker :" + key)
                         st.write(val)
                     uploaded_file = None
             
