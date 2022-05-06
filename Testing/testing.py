@@ -11,11 +11,11 @@ import firebase_admin
 from firebase_admin import credentials, firestore
 
 if not firebase_admin._apps:
-    source_new = os.environ['$FIREBASE_KEY'] 
+    source_new = os.environ['FIREBASE_KEY'] 
     cred = credentials.Certificate(source_new)
     firebase_admin.initialize_app(cred)
 
-source = os.environ['$GCP_KEY'] 
+source = os.environ['GCP_KEY'] 
 info = json.load(source)
 credentialls = service_account.Credentials.from_service_account_info(info)
 
