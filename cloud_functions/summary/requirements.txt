@@ -1,0 +1,6 @@
+# Function dependencies, for example:
+# package>=version
+firebase-admin
+tensorflow
+transformers
+google-cloud-storage
