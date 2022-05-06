@@ -20,7 +20,11 @@ jobs:
       - name: install dependencies and run py # install dependencies for py file run
         run: |
           pip install -r requirements.txt
+<<<<<<< HEAD
           pytest testing.py
+=======
+          pytest Testing/testing.py
+>>>>>>> 1b76c25c36169a25638c2b69d06661374fb33ba4
         env:
           GCP_KEY:   ${{ secrets.GCP_ACCESS_KEY }}
           FIREBASE_KEY:   ${{ secrets.FIREBASE_ACCESS_KEY }}
